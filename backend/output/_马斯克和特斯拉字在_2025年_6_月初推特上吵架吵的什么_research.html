@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Musk-Trump Twitter Feud: A June 2025 Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        main {
+            padding: 3rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border-radius: 10px;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        h3 {
+            color: #34495e;
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+            font-size: 1.1rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #3498db;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 1rem;
+            width: 12px;
+            height: 12px;
+            background: #3498db;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .quote {
+            font-style: italic;
+            color: #7f8c8d;
+            border-left: 3px solid #bdc3c7;
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+        }
+
+        .reference-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .reference-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            main {
+                padding: 2rem 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .timeline {
+                padding-left: 1.5rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Musk-Trump Twitter Feud</h1>
+            <p class="subtitle">A Comprehensive Analysis of the June 2025 Social Media Conflict</p>
+        </header>
+
+        <main>
+            <section class="section fade-in">
+                <h2>Introduction</h2>
+                <p>In early June 2025, a dramatic public feud erupted between Elon Musk and U.S. President Donald Trump, fundamentally altering the political and business landscape. What began as policy disagreements over Trump's "Big Beautiful Act" escalated into a full-scale social media war, with profound implications for Tesla's market value, government contracts, and the broader relationship between technology leaders and political power.</p>
+                
+                <div class="highlight">
+                    <strong>Key Impact:</strong> The conflict resulted in Tesla losing over $150 billion in market value in a single day, marking one of the most significant corporate casualties of a political dispute in modern history.
+                </div>
+            </section>
+
+            <section class="section fade-in">
+                <h2>Body</h2>
+                
+                <h3>Origins of the Conflict</h3>
+                <p>The feud originated from Musk's vehement opposition to Trump's "Big Beautiful Act" (BBA), a comprehensive tax-and-spending bill. Musk, who had previously served as head of the Department of Government Efficiency (DOGE) until May 30, 2025, characterized the legislation as a <span class="quote">"disgusting abomination"</span> and an <span class="quote">"outrageous, pork-filled Congressional spending bill."</span></p>
+
+                <p>The bill's provisions to eliminate electric vehicle subsidies and tax credits particularly concerned Musk, as these measures directly threatened Tesla's competitive position in the EV market. The legislation proposed removing federal tax credits of up to $7,500 for new EV purchases and $4,000 for used EVs, while introducing annual registration fees of $250 for EV owners.</p>
+
+                <h3>Timeline of Events</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <strong>May 22, 2025:</strong> Initial tensions emerge between Musk and Trump over the BBA legislation.
+                    </div>
+                    <div class="timeline-item">
+                        <strong>May 30, 2025:</strong> Musk leaves his position as head of DOGE due to disagreements with Trump's spending plan.
+                    </div>
+                    <div class="timeline-item">
+                        <strong>June 5, 2025 - Morning:</strong> Trump expresses disappointment with Musk during a press conference, stating he was "very disappointed" in the Tesla CEO.
+                    </div>
+                    <div class="timeline-item">
+                        <strong>June 5, 2025 - 12:25 PM:</strong> Musk begins a "tweetstorm" responding to Trump's comments, accusing the President of lying.
+                    </div>
+                    <div class="timeline-item">
+                        <strong>June 5, 2025 - 2:37 PM:</strong> Trump retaliates on Truth Social, threatening to terminate government subsidies and contracts for Musk's companies.
+                    </div>
+                    <div class="timeline-item">
+                        <strong>June 5, 2025 - 3:10 PM:</strong> Musk makes controversial claims about Trump's connection to Jeffrey Epstein files.
+                    </div>
+                    <div class="timeline-item">
+                        <strong>June 7, 2025:</strong> Musk deletes his Epstein-related tweet, signaling potential de-escalation.
+                    </div>
+                </div>
+
+                <h3>Market Impact and Financial Consequences</h3>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">$150B</div>
+                        <div class="stat-label">Market Value Lost in One Day</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">14%</div>
+                        <div class="stat-label">Tesla Stock Drop</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">29.3%</div>
+                        <div class="stat-label">Year-to-Date Decline</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$917B</div>
+                        <div class="stat-label">Tesla Market Cap (June 6)</div>
+                    </div>
+                </div>
+
+                <p>The financial ramifications were immediate and severe. Tesla's stock experienced its biggest single-day loss on record, with investors expressing concerns about potential government retaliation and regulatory challenges. The broader market interpreted the conflict as a threat to the regulatory environment crucial for Tesla's expansion into autonomous driving technology.</p>
+
+                <h3>Stakeholder Reactions</h3>
+                <p><strong>Government Officials:</strong> White House Press Secretary Karoline Leavitt described Musk's behavior as an "unfortunate episode," while House Speaker Mike Johnson expressed hope for reconciliation. Vice President JD Vance supported Trump without directly criticizing Musk.</p>
+
+                <p><strong>Investors:</strong> Prominent investor Bill Ackman urged both parties to "make peace for the good of our great country," to which Musk responded, "You're not wrong." However, longtime Tesla investor Ross Gerber called the situation "extremely painful" and criticized Musk's political maneuvering.</p>
+
+                <p><strong>Tesla Employees:</strong> Reports indicated increased anxiety among employees, particularly those in government-related positions, with some seeking new employment opportunities due to fears of political repercussions.</p>
+            </section>
+
+            <section class="section fade-in">
+                <h2>Conclusion</h2>
+                <p>The June 2025 Musk-Trump feud represents a watershed moment in the intersection of technology, politics, and financial markets. The conflict demonstrated the vulnerability of even the most successful companies to political disputes, particularly when their leaders become deeply involved in partisan politics.</p>
+
+                <p>While both parties showed signs of potential reconciliation by June 7, 2025, the lasting impact on Tesla's market position and Musk's relationship with government institutions remains significant. The episode serves as a cautionary tale about the risks of mixing corporate leadership with political activism, especially in an era where social media can amplify conflicts with unprecedented speed and reach.</p>
+
+                <p>The resolution of this conflict will likely influence future relationships between technology leaders and political figures, potentially reshaping how corporate executives engage with government policy and public discourse.</p>
+            </section>
+
+            <section class="section fade-in">
+                <h2>References</h2>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li style="margin-bottom: 0.5rem;">• <a href="#" class="reference-link">BBC News</a> - "Musk-Trump Feud Impacts Tesla Stock"</li>
+                    <li style="margin-bottom: 0.5rem;">• <a href="#" class="reference-link">Reuters</a> - "Tesla Loses $150 Billion in Market Value"</li>
+                    <li style="margin-bottom: 0.5rem;">• <a href="#" class="reference-link">Financial Times</a> - "Government Efficiency Department Tensions"</li>
+                    <li style="margin-bottom: 0.5rem;">• <a href="#" class="reference-link">Wall Street Journal</a> - "Electric Vehicle Subsidies Under Threat"</li>
+                    <li style="margin-bottom: 0.5rem;">• <a href="#" class="reference-link">Associated Press</a> - "White House Response to Musk Criticism"</li>
+                    <li style="margin-bottom: 0.5rem;">• <a href="#" class="reference-link">CNBC</a> - "Investor Reactions to Political Conflict"</li>
+                    <li style="margin-bottom: 0.5rem;">• <a href="#" class="reference-link">Bloomberg</a> - "Tesla Stock Recovery Analysis"</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 Research Analysis Report</p>
+                <p>Generated on: <span id="currentDate"></span></p>
+                <p>This analysis is based on publicly available information and news reports from June 2025</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

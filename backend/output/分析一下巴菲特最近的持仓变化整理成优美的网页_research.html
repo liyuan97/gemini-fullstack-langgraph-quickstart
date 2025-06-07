@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>巴菲特持仓变化分析 - Warren Buffett Portfolio Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+        .section:nth-child(5) { animation-delay: 0.8s; }
+        .section:nth-child(6) { animation-delay: 1s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #1e3c72;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #764ba2;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: #2a5298;
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .intro-text {
+            font-size: 1.3rem;
+            color: #34495e;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .highlight-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e3c72;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .holdings-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .holding-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .holding-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .holding-name {
+            font-weight: 600;
+            color: #1e3c72;
+            font-size: 1.1rem;
+        }
+
+        .holding-change {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .positive { color: #28a745; }
+        .negative { color: #dc3545; }
+        .neutral { color: #6c757d; }
+
+        .reference-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .reference-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .generation-date {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            header {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .content {
+                padding: 40px 20px;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .holdings-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading-animation {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>巴菲特持仓变化分析</h1>
+            <p class="subtitle">Warren Buffett Portfolio Analysis - Q1 2025 Holdings Review</p>
+        </header>
+
+        <div class="content">
+            <section class="section">
+                <div class="intro-text">
+                    本报告深入分析了沃伦·巴菲特旗下伯克希尔·哈撒韦公司在2025年第一季度的投资组合变化，基于最新的13F文件和相关财务报告，为投资者提供全面的持仓洞察。
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>投资组合概览</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">$259B</span>
+                        <span class="stat-label">投资组合总价值</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">36</span>
+                        <span class="stat-label">持仓公司数量</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">$347B</span>
+                        <span class="stat-label">现金储备</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">70%</span>
+                        <span class="stat-label">前五大持仓占比</span>
+                    </div>
+                </div>
+
+                <p>伯克希尔·哈撒韦在2025年第一季度继续保持谨慎的投资策略，投资组合价值从约2670亿美元降至2590亿美元。公司连续第十个季度成为股票净卖方，购买了32亿美元的股票，同时出售了47亿美元。现金储备达到创纪录的3470亿美元，反映了巴菲特在当前市场环境下的审慎态度。</p>
+            </section>
+
+            <section class="section">
+                <h2>前五大核心持仓</h2>
+                <div class="holdings-list">
+                    <div class="holding-item">
+                        <div class="holding-name">苹果公司 (AAPL)</div>
+                        <div class="holding-change neutral">占投资组合26% - 维持3亿股持仓</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">美国运通 (AXP)</div>
+                        <div class="holding-change neutral">占投资组合15.77% - 长期核心持仓</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">可口可乐 (KO)</div>
+                        <div class="holding-change positive">占投资组合11.07% - 排名上升至第三</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">美国银行 (BAC)</div>
+                        <div class="holding-change negative">占投资组合10.19% - 连续两季度减持</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">雪佛龙 (CVX)</div>
+                        <div class="holding-change neutral">占投资组合7.67% - 能源板块核心持仓</div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>核心观察</h3>
+                    <p>苹果公司仍然是伯克希尔最大的单一持仓，价值约630亿美元。尽管在整个投资组合中的占比有所下降，但巴菲特继续对这家科技巨头保持信心。可口可乐排名上升至第三位，反映了对消费必需品板块的持续看好。</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>重要持仓变化</h2>
+                
+                <h3>显著增持</h3>
+                <div class="holdings-list">
+                    <div class="holding-item">
+                        <div class="holding-name">西方石油 (OXY)</div>
+                        <div class="holding-change positive">持股比例增至28%</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">星座品牌 (STZ)</div>
+                        <div class="holding-change positive">新增近1200万股，持股6.7%</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">达美乐比萨 (DPZ)</div>
+                        <div class="holding-change positive">季度环比增持86%，价值13亿美元</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">Pool Corporation (POOL)</div>
+                        <div class="holding-change positive">持股翻倍增长</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">天狼星XM (SIRI)</div>
+                        <div class="holding-change positive">持股增至35.4%，共1.19亿股</div>
+                    </div>
+                </div>
+
+                <h3>重要减持与退出</h3>
+                <div class="holdings-list">
+                    <div class="holding-item">
+                        <div class="holding-name">花旗集团 (C)</div>
+                        <div class="holding-change negative">完全清仓，出售1460万股</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">NU Holdings (NU)</div>
+                        <div class="holding-change negative">完全退出持仓</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">美国银行 (BAC)</div>
+                        <div class="holding-change negative">减持4870万股，价值约21亿美元</div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-name">第一资本 (COF)</div>
+                        <div class="holding-change negative">持仓规模缩减</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>投资策略洞察</h2>
+                <p>巴菲特在2024-2025年的投资策略体现出明显的防御性特征。面对市场不确定性，伯克希尔保持创纪录的现金头寸，体现了"耐心等待机会"的投资哲学。</p>
+
+                <div class="highlight-box">
+                    <h3>战略重点转移</h3>
+                    <p><strong>减少金融板块敞口：</strong>连续减持银行股，包括美国银行和完全退出花旗集团，反映了对金融行业前景的谨慎态度。</p>
+                    <p><strong>增加消费必需品投资：</strong>增持星座品牌和达美乐比萨，显示对具有稳定现金流的消费品公司的偏好。</p>
+                    <p><strong>能源板块布局：</strong>继续增持西方石油，体现了对能源行业长期价值的认可。</p>
+                </div>
+
+                <p>值得注意的是，巴菲特还增加了对五家日本贸易公司的持股比例，将持股比例提升至8.5%-9.8%之间，体现了其全球化投资视野。</p>
+            </section>
+
+            <section class="section">
+                <h2>参考资料</h2>
+                <p>本分析基于以下权威资料来源：</p>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px;">• <a href="#" class="reference-link">Berkshire Hathaway 13F Filing Q1 2025</a></li>
+                    <li style="margin-bottom: 10px;">• <a href="#" class="reference-link">Seeking Alpha Portfolio Analysis</a></li>
+                    <li style="margin-bottom: 10px;">• <a href="#" class="reference-link">Forbes Investment Report</a></li>
+                    <li style="margin-bottom: 10px;">• <a href="#" class="reference-link">Morningstar Holdings Data</a></li>
+                    <li style="margin-bottom: 10px;">• <a href="#" class="reference-link">Vested Finance Analysis</a></li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>结论</h2>
+                <p>巴菲特在2025年第一季度的投资组合调整反映了其一贯的价值投资理念和对市场时机的精准把握。通过减少金融板块敞口、增加消费必需品和能源投资，以及保持高额现金储备，伯克希尔为未来的投资机会做好了充分准备。</p>
+                
+                <div class="highlight-box">
+                    <h3>投资启示</h3>
+                    <p>对于普通投资者而言，巴菲特的投资策略变化提供了宝贵的市场洞察。在不确定的市场环境中，保持流动性、专注于具有强劲基本面的公司、以及长期价值投资的重要性再次得到验证。</p>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 Warren Buffett Portfolio Analysis. All rights reserved.</p>
+                <p>本网页展示了基于公开信息的投资组合分析，仅供参考，不构成投资建议。</p>
+                <div class="generation-date">
+                    网页生成日期：2025年6月7日
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 添加滚动动画效果
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const scrollTop = window.pageYOffset;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - window.innerHeight + 100;
+                if (scrollTop > sectionTop) {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // 添加卡片悬停效果
+        document.querySelectorAll('.stat-card, .holding-item').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // 添加平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 添加加载动画
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+            document.body.style.transform = 'translateY(0)';
+        });
+    </script>
+</body>
+</html>

@@ -11,7 +11,7 @@ query_writer_instructions = """Your goal is to generate sophisticated and divers
 Instructions:
 - Always prefer a single search query, only add another query if the original question requests multiple aspects or elements and one query is not enough.
 - Each query should focus on one specific aspect of the original question.
-- Don't produce more than {number_queries} queries.
+- Don't produce more than {number_queries} queries. At list 3 queries.
 - Queries should be diverse, if the topic is broad, generate more than 1 query.
 - Don't generate multiple similar queries, 1 is enough.
 - Query should ensure that the most current information is gathered. The current date is {current_date}.
@@ -64,6 +64,13 @@ Output Format:
    - "knowledge_gap": Describe what information is missing or needs clarification
    - "follow_up_queries": Write a specific question to address this gap
 
+
+Please evaluate the current task completion status. Review historical messages and execution results to determine if the task has achieved its main objectives. 
+
+If you believe the task is complete and meets requirements, please set is_sufficient=True.
+If you believe the task has notable deficiencies or important room for improvement, please set is_sufficient=False, and list 1-3 most needed improvements.
+
+
 Example:
 ```json
 {{
@@ -87,10 +94,58 @@ Instructions:
 - You have access to all the information gathered from the previous steps.
 - You have access to the user's question.
 - Generate a high-quality answer to the user's question based on the provided summaries and the user's question.
-- you MUST include all the citations from the summaries in the answer correctly.
+
+
+- Markdown format
+- Three sections:
+   - Introduction
+   - Body
+   - Conclusion
+- Introduction:
+   - Summarize the user's question
+   - Summarize the summaries
+   - Summarize the answer
+
 
 User Context:
 - {research_topic}
 
 Summaries:
-{summaries}"""
+{summaries}
+
+"""
+
+
+
+
+# html_prompt
+html_prompt = """
+Design a visually stunning and responsive website layout that aligns with the theme, using modern UI/UX principles, clean typography, and an elegant color palette.\nAfter you finished the website building and testing, you need to deploy the website to web server.
+Please use the following format:
+- Introduction
+- Body
+- Conclusion
+- References
+- Footer
+- Header
+
+Requirements:
+1. Create a complete HTML document with proper DOCTYPE, head, and body tags
+2. Include modern CSS styling with a clean, professional design
+3. Use a responsive layout that works on both desktop and mobile
+4. Include proper typography and spacing
+5. Add a header with the research topic as the title
+6. Format the content with proper headings, paragraphs, and structure
+7. Include a footer with the generation date
+8. Use a modern color scheme (e.g., blues, grays, whites)
+9. Make sure all citations and links are properly formatted
+10. Add some subtle animations or hover effects for better UX
+
+Return only the complete HTML content without any explanations or markdown formatting.
+User Context:
+- {research_topic}
+
+Summaries:
+{summaries}
+
+"""
